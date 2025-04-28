@@ -3,25 +3,31 @@ import os
 
 DATA_FOLDER = "data/"
 
-# List files in data folder
-print("Files in data folder:")
-print(os.listdir(DATA_FOLDER))
-print("-" * 40)
+# List CSV files you have downloaded
+csv_files = [
+    'circuits.csv',
+    'constructors.csv',
+    'constructor_results.csv',
+    'constructor_standings.csv',
+    'drivers.csv',
+    'driver_standings.csv',
+    'lap_times.csv',
+    'pit_stops.csv',
+    'qualifying.csv',
+    'races.csv',
+    'results.csv',
+    'seasons.csv',
+    'status.csv'
+]
 
-#load drivers dataset
-drivers_path = os.path.join(DATA_FOLDER, "drivers.csv")
-drivers = pd.read_csv(drivers_path)
+# Load each CSV into a DataFrame
+dataframes = {}
 
-#Display some basic information
-print("Drivers dataset:")
-print(drivers.head())
-print("-" * 40)
-
-#Display basic stats
-print("Summary statistics")
-print(drivers.describe(include='all'))
-print("-" * 40)
-
-#Check for missing values
-print("Missing values per column:")
-print(drivers.isnull().sum())
+for file in csv_files:
+    df_name = file.replace('.csv', '')
+    df_path = os.path.join(DATA_FOLDER, file)
+    df = pd.read_csv(df_path)
+    dataframes[df_name] = df
+    print(f"\n==== {df_name.upper()} ====")
+    print(df.info())
+    print(df.head())
